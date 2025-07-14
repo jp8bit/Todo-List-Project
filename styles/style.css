@@ -1,0 +1,35 @@
+@charset "UTF-8";
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.todo-heading {
+   display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  background-color: #f0f0f0; /* Just for visualization */
+  padding: 20px 0; /* Add some spacing */
+}
+
+.container {
+  display: flex;
+  margin-top: 10em;
+}
+
+.input-section, .tasks-section {
+  width: 50%;
+  gap: 20px;
+  text-align: center;
+}
+
+.text-input {
+  padding: 2px;
+}
