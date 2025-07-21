@@ -8,83 +8,85 @@ const taskHolder = document.querySelector('.js-task-holder');
 
 addButton.addEventListener('click', addTask);
 inputField.addEventListener('keyup', (e) => {
-  if (e.key === 'Enter') {
-    addTask();
-  }
+  if (e.key === 'Enter') addTask();
 });
 
-// Adding task button
+// Task creation
 function addTask() {
   const taskText = inputField.value.trim();
 
-  // Check for empty input
-  if (taskText === '') {
+  // Validation checks
+  if (!taskText) {
     alert('Please enter a task!');
     return;
   }
-
-  // Check for same name tasks, regardless of capital letters
-  const existingTasks = Array.from(document.querySelectorAll('.js-task-text'));
-  if (existingTasks.some(task => task.textContent.toLowerCase() === taskText.toLowerCase())) {
+  if (Array.from(document.querySelectorAll('.js-task-text'))
+    .some(task => task.textContent.toLowerCase() === taskText.toLowerCase())) {
     alert("Task already exists!");
     return;
   }
-
-  // Check for task length 
   if (taskText.length > 100) {
     alert("Task too long (max 100 characters)");
     return;
   }
 
-  // Create task element 
+  // Create task element
   const taskElement = document.createElement('div');
   taskElement.className = 'task js-task';
-
-  // HTML structure
   taskElement.innerHTML = `
-    <input type="checkbox" class="task-checkbox js-task-checkbox">
-    <span class="task-tag js-task-tag"></span>
-    <span class="task-text js-task-text">${taskText}</span>
-    <input type="text" class="task-edit-input js-task-edit-input" style="display: none;">
-    <button class="edit-btn js-edit-btn">Edit</button>
-    <button class="save-btn js-save-btn" style="display: none;">Save</button>
-    <button class="cancel-btn js-cancel-btn" style="display: none;">Cancel</button>
-    <button class="delete-btn js-delete-btn">Delete</button>
-  `;
-
-  taskHolder.appendChild(taskElement);
-  inputField.value = '';
-
-  setupTaskEventListeners(taskElement);
-  saveTasks();
-}
-
-function loadTasks() {
-  const savedTasks = JSON.parse(localStorage.getItem('todoTasks'));
-  if (!savedTasks) return;
-
-  savedTasks.forEach((task) => {
-    const taskElement = document.createElement('div');
-    taskElement.className = 'task js-task';
-    
-    taskElement.innerHTML = `
-      <input type="checkbox" class="task-checkbox js-task-checkbox" ${task.completed ? 'checked' : ''}>
-      <span class="task-tag js-task-tag" style="background: ${task.tag ? TAGS[task.tag].color : 'transparent'}"></span>
-      <span class="task-text js-task-text">${task.text}</span>
+    <div class="task-content">
+      <input type="checkbox" class="task-checkbox js-task-checkbox">
+      <span class="task-tag js-task-tag"></span>
+      <span class="task-text js-task-text">${taskText}</span>
       <input type="text" class="task-edit-input js-task-edit-input" style="display: none;">
+    </div>
+    <div class="task-actions">
       <button class="edit-btn js-edit-btn">Edit</button>
       <button class="save-btn js-save-btn" style="display: none;">Save</button>
       <button class="cancel-btn js-cancel-btn" style="display: none;">Cancel</button>
       <button class="delete-btn js-delete-btn">Delete</button>
+    </div>
+  `;
+
+  taskHolder.appendChild(taskElement);
+  inputField.value = '';
+  setupTaskEventListeners(taskElement);
+  saveTasks();
+}
+
+// Load tasks from storage
+function loadTasks() {
+  const savedTasks = JSON.parse(localStorage.getItem('todoTasks')) || [];
+  
+  savedTasks.forEach(task => {
+    const taskElement = document.createElement('div');
+    taskElement.className = 'task js-task';
+    taskElement.innerHTML = `
+      <div class="task-content">
+        <input type="checkbox" class="task-checkbox js-task-checkbox" ${task.completed ? 'checked' : ''}>
+        <span class="task-tag js-task-tag"></span>
+        <span class="task-text js-task-text">${task.text}</span>
+        <input type="text" class="task-edit-input js-task-edit-input" style="display: none;">
+      </div>
+      <div class="task-actions">
+        <button class="edit-btn js-edit-btn">Edit</button>
+        <button class="save-btn js-save-btn" style="display: none;">Save</button>
+        <button class="cancel-btn js-cancel-btn" style="display: none;">Cancel</button>
+        <button class="delete-btn js-delete-btn">Delete</button>
+      </div>
     `;
 
-    if (task.tag) {
+    // Set tag if exists
+    if (task.tag && TAGS[task.tag]) {
+      const tagElement = taskElement.querySelector('.js-task-tag');
+      tagElement.textContent = TAGS[task.tag].name;
+      tagElement.style.background = TAGS[task.tag].color;
       taskElement.dataset.tag = task.tag;
     }
 
-    const textElement = taskElement.querySelector('.js-task-text');
+    // Set completed state
     if (task.completed) {
-      textElement.classList.add('completed');
+      taskElement.querySelector('.js-task-text').classList.add('completed');
     }
 
     setupTaskEventListeners(taskElement);
@@ -92,6 +94,7 @@ function loadTasks() {
   });
 }
 
+// Setup all task event listeners
 function setupTaskEventListeners(taskElement) {
   const editBtn = taskElement.querySelector('.js-edit-btn');
   const saveBtn = taskElement.querySelector('.js-save-btn');
@@ -100,100 +103,95 @@ function setupTaskEventListeners(taskElement) {
   const checkbox = taskElement.querySelector('.js-task-checkbox');
   const deleteBtn = taskElement.querySelector('.js-delete-btn');
   const cancelBtn = taskElement.querySelector('.js-cancel-btn');
-  const tagElement = taskElement.querySelector('.js-task-tag');
+  const originalTagElement = taskElement.querySelector('.js-task-tag');
 
-  // Edit button click handler
+  // Edit button
   editBtn.addEventListener('click', (e) => {
     e.stopPropagation();
     taskElement.classList.add('edit-mode');
-    editInput.value = taskTextElement.textContent;
     
-    // Replace tag with dropdown
+    // Create dropdown with current tag selected
     const currentTag = taskElement.dataset.tag || '';
     const tagDropdown = createTagDropdown(currentTag);
-    taskElement.querySelector('.js-task-tag').replaceWith(tagDropdown);
+    tagDropdown.addEventListener('mousedown', (e) => e.stopPropagation());
+    originalTagElement.replaceWith(tagDropdown);
     
     editInput.value = taskTextElement.textContent;
     editInput.focus();
 
-    // Modified blur handler
-  const handleBlur = (e) => {
-    // Don't save if clicking on dropdown or its options
-    if (!e.relatedTarget || !e.relatedTarget.closest('.tag-dropdown')) {
-      saveBtn.click();
-    }
-  };
-  
-  editInput.addEventListener('blur', handleBlur);
-});
+    // Handle blur
+    const handleBlur = (e) => {
+      if (!e.relatedTarget?.closest('.tag-dropdown')) {
+        saveBtn.click();
+      }
+    };
+    editInput.addEventListener('blur', handleBlur, { once: true });
+  });
 
-  // Save button click handler
+  // Save button
   saveBtn.addEventListener('click', (e) => {
     e.stopPropagation();
     const newText = editInput.value.trim();
+    const tagDropdown = taskElement.querySelector('.tag-dropdown');
+    const selectedTag = tagDropdown?.value;
+
     if (newText) {
+      // Update task content
       taskTextElement.textContent = newText;
-      taskElement.classList.remove('edit-mode');
       
-      // Save selected tag
-      const tagDropdown = taskElement.querySelector('.tag-dropdown');
-      if (tagDropdown) {
-        const selectedTag = tagDropdown.value;
+      // Create new tag element
+      const newTagElement = document.createElement('span');
+      newTagElement.className = 'task-tag js-task-tag';
+      
+      if (selectedTag && TAGS[selectedTag]) {
         taskElement.dataset.tag = selectedTag;
-        
-        // Update tag display
-        tagElement.style.background = selectedTag ? TAGS[selectedTag].color : 'transparent';
-        tagDropdown.replaceWith(tagElement);
+        newTagElement.textContent = TAGS[selectedTag].name;
+        newTagElement.style.background = TAGS[selectedTag].color;
+      } else {
+        taskElement.removeAttribute('data-tag');
       }
       
+      // Replace dropdown with tag
+      tagDropdown.replaceWith(newTagElement);
+      taskElement.classList.remove('edit-mode');
       saveTasks();
     }
   });
 
-  // Enter key handler for edit input
-  editInput.addEventListener('keyup', (e) => {
-    if (e.key === 'Enter') {
-      saveBtn.click();
-    }
-  });
-
+  // Cancel button
   cancelBtn.addEventListener('click', (e) => {
     e.stopPropagation();
     taskElement.classList.remove('edit-mode');
     
-    // Restore original tag display
+    // Restore original tag
     const tagDropdown = taskElement.querySelector('.tag-dropdown');
     if (tagDropdown) {
-      tagDropdown.replaceWith(tagElement);
+      const originalClone = originalTagElement.cloneNode(true);
+      tagDropdown.replaceWith(originalClone);
     }
   });
 
-  // Checkbox change handler
-  checkbox.addEventListener('change', function() {
-    taskTextElement.classList.toggle('completed', this.checked);
+  // Other event listeners
+  editInput.addEventListener('keyup', (e) => e.key === 'Enter' && saveBtn.click());
+  checkbox.addEventListener('change', () => {
+    taskTextElement.classList.toggle('completed', checkbox.checked);
     saveTasks();
   });
-
-  // Delete button click handler
   deleteBtn.addEventListener('click', () => {
     taskElement.remove();
     saveTasks();
   });
 }
 
+// Save tasks to storage
 function saveTasks() {
-  const getTasks = document.querySelectorAll('.js-task');
-  const tasksArray = [];
-
-  getTasks.forEach((taskElement) => {
-    tasksArray.push({
-      text: taskElement.querySelector('.js-task-text').textContent,
-      completed: taskElement.querySelector('.js-task-checkbox').checked,
-      tag: taskElement.dataset.tag || null
-    });
-  });
-
-  localStorage.setItem('todoTasks', JSON.stringify(tasksArray));
+  const tasks = Array.from(document.querySelectorAll('.js-task')).map(task => ({
+    text: task.querySelector('.js-task-text').textContent,
+    completed: task.querySelector('.js-task-checkbox').checked,
+    tag: task.dataset.tag || null
+  }));
+  localStorage.setItem('todoTasks', JSON.stringify(tasks));
 }
 
+// Initialize
 document.addEventListener('DOMContentLoaded', loadTasks);
