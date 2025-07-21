@@ -33,3 +33,78 @@ body {
 .text-input {
   padding: 2px;
 }
+
+.task-text.completed {
+  text-decoration: line-through;
+  opacity: 0.7;
+}
+
+.task-edit-input {
+  flex-grow: 1;
+  margin: 0 10px;
+  display: none; /* Hidden bby default */
+}
+
+.edit-mode .task-text,
+.edit-mode .js-edit-btn {
+  display: none !important; /* Hide text and edit button when editing */
+}
+
+.edit-mode .task-edit-input,
+.edit-mode .js-save-btn,
+.edit-mode .js-cancel-btn {
+  display: inline-block !important; /* Show input and save button */
+}
+
+.edit-btn {
+  background: rgb(112, 208, 107);
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.save-btn {
+  background: green;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.cancel-btn {
+  background: #f44336;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.delete-btn {
+  background: black;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.task { animation: fadeIn 0.3s; }
+@keyframes fadeIn { from { opacity: 0; } }
+
+.task-tag {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  margin-right: 8px;
+  transition: background 0.3s;
+}
+
+.tag-dropdown {
+  margin-right: 8px;
+  padding: 2px;
+}
