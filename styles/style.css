@@ -101,7 +101,7 @@ body {
   align-items: center;
   padding: 10px;
   margin: 5px 0;
-  background: white;
+  background: #C1E7E3;
   border-radius: 4px;
   box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 }
@@ -141,10 +141,7 @@ body {
 }
 
 /* Optional: Tag specific styles */
-[data-tag="WORK"] { background: #ff5252 !important; }
-[data-tag="CHORES"] { background: #4caf50 !important; }
-[data-tag="EVENTS"] { background: #2196f3 !important; }
-[data-tag="PERSONAL"] { background: #ff9800 !important; }
+
 
 .tag-dropdown {
   margin-right: 8px;

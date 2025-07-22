@@ -103,73 +103,81 @@ function setupTaskEventListeners(taskElement) {
   const checkbox = taskElement.querySelector('.js-task-checkbox');
   const deleteBtn = taskElement.querySelector('.js-delete-btn');
   const cancelBtn = taskElement.querySelector('.js-cancel-btn');
-  const originalTagElement = taskElement.querySelector('.js-task-tag');
 
-  // Edit button
-  editBtn.addEventListener('click', (e) => {
+    // Edit button
+    editBtn.addEventListener('click', (e) => {
     e.stopPropagation();
     taskElement.classList.add('edit-mode');
     
-    // Create dropdown with current tag selected
-    const currentTag = taskElement.dataset.tag || '';
-    const tagDropdown = createTagDropdown(currentTag);
-    tagDropdown.addEventListener('mousedown', (e) => e.stopPropagation());
-    originalTagElement.replaceWith(tagDropdown);
-    
-    editInput.value = taskTextElement.textContent;
-    editInput.focus();
+   // Find the CURRENT tag element (not storing original reference)
+  const currentTagElement = taskElement.querySelector('.js-task-tag');
+  const currentTag = taskElement.dataset.tag || '';
+  const tagDropdown = createTagDropdown(currentTag);
+  tagDropdown.addEventListener('mousedown', (e) => e.stopPropagation());
+  
+  currentTagElement.replaceWith(tagDropdown);
+  
+  editInput.value = taskTextElement.textContent;
+  editInput.focus();
 
-    // Handle blur
-    const handleBlur = (e) => {
-      if (!e.relatedTarget?.closest('.tag-dropdown')) {
-        saveBtn.click();
-      }
-    };
-    editInput.addEventListener('blur', handleBlur, { once: true });
-  });
+  // Handle blur
+  const handleBlur = (e) => {
+    if (!e.relatedTarget?.closest('.tag-dropdown')) {
+      saveBtn.click();
+    }
+  };
+  editInput.addEventListener('blur', handleBlur, { once: true });
+});
 
   // Save button
   saveBtn.addEventListener('click', (e) => {
-    e.stopPropagation();
-    const newText = editInput.value.trim();
-    const tagDropdown = taskElement.querySelector('.tag-dropdown');
-    const selectedTag = tagDropdown?.value;
+  e.stopPropagation();
+  const newText = editInput.value.trim();
+  const tagDropdown = taskElement.querySelector('.tag-dropdown');
+  const selectedTag = tagDropdown?.value;
 
-    if (newText) {
-      // Update task content
-      taskTextElement.textContent = newText;
-      
-      // Create new tag element
-      const newTagElement = document.createElement('span');
-      newTagElement.className = 'task-tag js-task-tag';
-      
-      if (selectedTag && TAGS[selectedTag]) {
-        taskElement.dataset.tag = selectedTag;
-        newTagElement.textContent = TAGS[selectedTag].name;
-        newTagElement.style.background = TAGS[selectedTag].color;
-      } else {
-        taskElement.removeAttribute('data-tag');
-      }
-      
-      // Replace dropdown with tag
-      tagDropdown.replaceWith(newTagElement);
-      taskElement.classList.remove('edit-mode');
-      saveTasks();
-    }
-  });
-
-  // Cancel button
-  cancelBtn.addEventListener('click', (e) => {
-    e.stopPropagation();
-    taskElement.classList.remove('edit-mode');
+  if (newText) {
+    taskTextElement.textContent = newText;
     
-    // Restore original tag
-    const tagDropdown = taskElement.querySelector('.tag-dropdown');
-    if (tagDropdown) {
-      const originalClone = originalTagElement.cloneNode(true);
-      tagDropdown.replaceWith(originalClone);
+    const newTagElement = document.createElement('span');
+    newTagElement.className = 'task-tag js-task-tag';
+    
+    if (selectedTag && TAGS[selectedTag]) {
+      taskElement.dataset.tag = selectedTag;
+      newTagElement.textContent = TAGS[selectedTag].name;
+      newTagElement.style.background = TAGS[selectedTag].color;
+    } else {
+      taskElement.removeAttribute('data-tag');
     }
-  });
+    
+    // Replace dropdown with new tag
+    if (tagDropdown) {
+      tagDropdown.replaceWith(newTagElement);
+    }
+    taskElement.classList.remove('edit-mode');
+    saveTasks();
+  }
+});
+
+ cancelBtn.addEventListener('click', (e) => {
+  e.stopPropagation();
+  taskElement.classList.remove('edit-mode');
+  
+  const tagDropdown = taskElement.querySelector('.tag-dropdown');
+  if (tagDropdown) {
+    // Create a fresh tag element based on current data
+    const currentTag = taskElement.dataset.tag;
+    const tagElement = document.createElement('span');
+    tagElement.className = 'task-tag js-task-tag';
+    
+    if (currentTag && TAGS[currentTag]) {
+      tagElement.textContent = TAGS[currentTag].name;
+      tagElement.style.background = TAGS[currentTag].color;
+    }
+    
+    tagDropdown.replaceWith(tagElement);
+  }
+});
 
   // Other event listeners
   editInput.addEventListener('keyup', (e) => e.key === 'Enter' && saveBtn.click());
