@@ -148,6 +148,8 @@ function setupTaskEventListeners(taskElement) {
       newTagElement.style.background = TAGS[selectedTag].color;
     } else {
       taskElement.removeAttribute('data-tag');
+      newTagElement.textContent = ''; // Ensure its empty
+      newTagElement.style.background = ''; // remove any background
     }
     
     // Replace dropdown with new tag
