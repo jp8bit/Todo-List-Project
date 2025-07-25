@@ -7,21 +7,30 @@
 }
 
 body {
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: #FFEEBC;
+  font-family: "Schoolbell", cursive, Arial, Helvetica, sans-serif;
 }
 
 .todo-heading {
-   display: flex;
+  display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
-  background-color: #f0f0f0; /* Just for visualization */
+  background-color: #ffd1dc; /* Just visualization */
   padding: 20px 0; /* Add some spacing */
+  box-shadow: 2px 1px 3px rgba(0, 0, 0, 0.342);
+}
+
+.todo-heading > h1 {
+  
 }
 
 .container {
   display: flex;
   margin-top: 10em;
+  background-color: #BE9B71;
+  padding: 30px 0px;
+  box-shadow: 2px 3px 3px rgba(0, 0, 0, 0.479);
 }
 
 .input-section, .tasks-section {
@@ -54,6 +63,10 @@ body {
 .edit-mode .js-save-btn,
 .edit-mode .js-cancel-btn {
   display: inline-block !important; /* Show input and save button */
+}
+
+.edit-btn, .add-button, .save-btn, .cancel-btn, .delete-btn {
+  font-family: "Schoolbell", cursive;
 }
 
 .edit-btn {
@@ -104,6 +117,11 @@ body {
   background: #C1E7E3;
   border-radius: 4px;
   box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  width: 725px;
+}
+
+.task-text {
+  font-size: 25px;
 }
 
 .task-content {
@@ -148,7 +166,7 @@ body {
   padding: 2px 8px;
   border-radius: 12px;
   margin-right: -7px;
-  font-size: 12px;
+  font-size: 15.5px;
   color: white;
   font-weight: bold;
   text-shadow: 0 1px 1px rgba(0,0,0,0.2);
