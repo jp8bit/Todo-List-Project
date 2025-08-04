@@ -52,6 +52,15 @@ function addTask() {
   inputField.value = '';
   setupTaskEventListeners(taskElement);
   saveTasks();
+
+    // Trigger grow animation
+  const container = document.querySelector('.container');
+  container.classList.add('grow-effect');
+  
+  // Remove after animation completes
+  setTimeout(() => {
+    container.classList.remove('grow-effect');
+  }, 400); // Matches CSS transition duration
 }
 
 // Load tasks from storage
@@ -190,7 +199,12 @@ function setupTaskEventListeners(taskElement) {
   deleteBtn.addEventListener('click', () => {
     taskElement.remove();
     saveTasks();
-  });
+
+    // Subtle shrink effect
+   const container = document.querySelector('.container');
+   container.classList.add('shrink-effect');
+   setTimeout(() => container.classList.remove('shrink-effect'), 300);
+ });
 }
 
 // Save tasks to storage

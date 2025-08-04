@@ -15,25 +15,30 @@ body {
 }
 
 .todo-heading {
+  box-sizing: border-box;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 100%;
+  width: 50%;
+  left: 50%;
+  right: 50%;
+  transform: translate(-50%);
   background-color: #ffeebcf2; /* Creamy yellow with transparency */
-  padding: 20px 0;
+  padding: 20px 10px;
   position: relative; /* Needed for pseudo-element positioning */
   isolation: isolate; /* Contains blending effects */
-  
   /* Border & Shadow */
-  border: 2px solid #965f37fa; /* Matching container's brown */
+  border: 2px solid  rgba(150, 95, 55, 0.8); /* Matching container's brown */
+  border-radius: 0 0 12px 12px;
   box-shadow: 
-    0 3px 10px rgba(106, 74, 58, 0.4), /* Outer shadow */
-    inset 0 0 10px rgba(255, 223, 139, 0.5); /* Inner glow */
-  
+    inset 0 4px 8px rgba(255, 236, 174, 0.4),
+    0 2px 4px rgba(106, 74, 58, 0.1);
   /* Text styling */
   text-shadow: 1px 1px 2px rgba(150, 95, 55, 0.3); /* Soft brown shadow */
-  
   margin-bottom: -2px; /* Connects visually with container */
+    margin-left: -1px; /* Compensates for border */
+  margin-right: -1px;
 }
 
 /* Add a warm glow behind the heading */
@@ -48,9 +53,29 @@ body {
   opacity: 0.5;
 }
 
+.todo-heading::after {
+  content: "";
+  position: absolute;
+  bottom: -4px;
+  left: 5%;
+  width: 90%;
+  height: 2px;
+  background: repeating-linear-gradient(
+    to right,
+    #965f37 0px,
+    #965f37 4px,
+    transparent 4px,
+    transparent 8px
+  );
+}
+
+.heading-description {
+  font-size: 1.1em;
+} 
+
 .container {
   display: flex;
-  width: fit-content;
+  width: 90%;
   max-width: 1000px;
   margin: 10em auto 0;
   padding: 30px;
@@ -67,11 +92,24 @@ body {
   backdrop-filter: blur(1px) brightness(105%);
   position: relative;
   isolation: isolate;
+  transition: 
+    height 0.4s ease-out,
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+  overflow: hidden; /* Prevents abrupt jumps */
+}
+
+.container.grow-effect {
+  transform: scaleY(1.02);
+  box-shadow: 0 6px 20px rgba(106, 74, 58, 0.3);
+}
+
+.container.shrink-effect {
+  transform: scaleY(0.98);
 }
 
 .container::before {
   content: "";
-  position: absolute;
   inset: -5px;
   background: linear-gradient(45deg, #ffdf8b, #d4a373);
   z-index: -1;
@@ -86,7 +124,7 @@ body {
   width: 100%; /* Take full width of container */
   gap: 20px;
   text-align: center;
-  padding: 0 20px;
+  padding: 0 10px;
 }
 
 .text-input {
@@ -205,6 +243,8 @@ body {
 
 .task-text {
   font-size: 25px;
+  word-break: break-word;
+  max-width: 60%;
 }
 
 .task-content {
@@ -242,6 +282,7 @@ body {
 .task-actions {
   display: flex;
   gap: 5px;
+  flex-shrink: 0;
 }
 
 .task-tag {
@@ -270,4 +311,15 @@ body {
 ::-webkit-scrollbar-thumb {
   background: #6a4a3a; /* Brown thumb */
   border-radius: 10px;
+}
+
+/* Responsive media query */
+
+@media (max-width: 768px) {
+  .task-text {
+    font-size: 18px;
+  }
+  .container {
+    padding: 20px 15px;
+  }
 }
