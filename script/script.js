@@ -14,6 +14,13 @@ inputField.addEventListener('keyup', (e) => {
 // Task creation
 function addTask() {
   const taskText = inputField.value.trim();
+  const currentDate = new Date();
+  const formattedDate = currentDate.toLocaleDateString('en-US', { 
+    month: 'short', 
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit'
+  });
 
   // Validation checks
   if (!taskText) {
@@ -38,6 +45,7 @@ function addTask() {
       <input type="checkbox" class="task-checkbox js-task-checkbox">
       <span class="task-tag js-task-tag"></span>
       <span class="task-text js-task-text">${taskText}</span>
+      <span class="task-date js-task-date">${formattedDate}</span>
       <input type="text" class="task-edit-input js-task-edit-input" style="display: none;">
     </div>
     <div class="task-actions">
@@ -75,6 +83,7 @@ function loadTasks() {
         <input type="checkbox" class="task-checkbox js-task-checkbox" ${task.completed ? 'checked' : ''}>
         <span class="task-tag js-task-tag"></span>
         <span class="task-text js-task-text">${task.text}</span>
+        <span class="task-date js-task-date">${task.date || ''}</span>
         <input type="text" class="task-edit-input js-task-edit-input" style="display: none;">
       </div>
       <div class="task-actions">
@@ -212,7 +221,8 @@ function saveTasks() {
   const tasks = Array.from(document.querySelectorAll('.js-task')).map(task => ({
     text: task.querySelector('.js-task-text').textContent,
     completed: task.querySelector('.js-task-checkbox').checked,
-    tag: task.dataset.tag || null
+    tag: task.dataset.tag || null,
+    date: task.querySelector('todoTasks', JSON.stringify(tasks))
   }));
   localStorage.setItem('todoTasks', JSON.stringify(tasks));
 }

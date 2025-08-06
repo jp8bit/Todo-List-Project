@@ -1,0 +1,96 @@
+/* Mobile First Breakpoints */
+@media (max-width: 768px) {
+  /* General Layout */
+  .container {
+    flex-direction: column;
+    width: 95%;
+    margin-top: 5em;
+    padding: 15px;
+  }
+
+  .input-section, 
+  .tasks-section {
+    width: 100%;
+    padding: 0;
+  }
+
+  /* Header */
+  .todo-heading {
+    width: 80%;
+    padding: 15px 5px;
+    font-size: 0.9em;
+  }
+
+  /* Task Items */
+  .task {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 8px;
+  }
+
+  .task-content {
+    width: 100%;
+    margin-bottom: 8px;
+  }
+
+  .task-text {
+    font-size: 25px;
+    max-width: 100%;
+  }
+
+  .task-actions {
+    align-self: flex-end;
+  }
+
+  /* Form Elements */
+  .text-input {
+    padding: 10px;
+    width: 100%;
+  }
+
+  /* Buttons */
+
+  .add-button {
+    padding: 10px;
+    font-size: 20px;
+    margin-top: 5px;
+  }
+
+  .edit-btn, .delete-btn {
+    width: 70px;
+  }
+
+  /* Hide date on smallest screens */
+  @media (max-width: 480px) {
+    .task-date {
+      display: none;
+    }
+    
+    .task-tag {
+      font-size: 12px;
+    }
+  }
+}
+
+/* Tablet Breakpoint */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .container {
+    width: 90%;
+    margin-top: 8em;
+  }
+
+  .task-text {
+    font-size: 20px;
+  }
+
+  .todo-heading {
+    width: 70%;
+  }
+}
+
+/* Desktop Adjustments */
+@media (min-width: 1025px) {
+  .container {
+    max-width: 1200px;
+  }
+}
