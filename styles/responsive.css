@@ -1,11 +1,16 @@
-/* Mobile First Breakpoints */
+/* Mobile First Approach */
 @media (max-width: 768px) {
-  /* General Layout */
   .container {
     flex-direction: column;
-    width: 95%;
     margin-top: 5em;
     padding: 15px;
+    width: 95%;
+  }
+
+  .todo-heading {
+    width: 90%;
+    padding: 15px 5px;
+    font-size: 0.9em;
   }
 
   .input-section, 
@@ -14,23 +19,29 @@
     padding: 0;
   }
 
-  /* Header */
-  .todo-heading {
-    width: 80%;
-    padding: 15px 5px;
-    font-size: 0.9em;
+  .input-group {
+    flex-direction: column;
   }
 
-  /* Task Items */
+  .text-input {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  .add-button {
+    width: 100%;
+  }
+
   .task {
     flex-direction: column;
     align-items: flex-start;
-    padding: 8px;
+    padding: 10px;
   }
 
   .task-content {
     width: 100%;
     margin-bottom: 8px;
+    flex-wrap: wrap;
   }
 
   .task-text {
@@ -40,24 +51,16 @@
 
   .task-actions {
     align-self: flex-end;
+    margin-top: 8px;
   }
 
-  /* Form Elements */
-  .text-input {
-    padding: 10px;
-    width: 100%;
+  .input-gif-container {
+    text-align: center;
+    margin: 0px 0px;
   }
 
-  /* Buttons */
-
-  .add-button {
-    padding: 10px;
-    font-size: 20px;
-    margin-top: 5px;
-  }
-
-  .edit-btn, .delete-btn {
-    width: 70px;
+  .input-gif {
+    max-width: 150px;
   }
 
   /* Hide date on smallest screens */
@@ -68,15 +71,17 @@
     
     .task-tag {
       font-size: 12px;
+      margin-right: 5px;
     }
   }
 }
 
-/* Tablet Breakpoint */
+/* Tablet Layout */
 @media (min-width: 769px) and (max-width: 1024px) {
   .container {
     width: 90%;
-    margin-top: 8em;
+    margin-top: 7em;
+    padding: 25px 25px 0px 25px;
   }
 
   .task-text {
@@ -86,11 +91,29 @@
   .todo-heading {
     width: 70%;
   }
+
+  .input-gif {
+    max-width: 180px;
+  }
 }
 
-/* Desktop Adjustments */
+/* Desktop Layout */
 @media (min-width: 1025px) {
   .container {
     max-width: 1200px;
+    margin-top: 10em;
+  }
+
+  .input-section {
+    padding-right: 30px;
+  }
+
+  .tasks-section {
+    padding-left: 30px;
+  }
+
+  .input-gif {
+    max-width: 200px;
+    margin-top: 20px;
   }
 }

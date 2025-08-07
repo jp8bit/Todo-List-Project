@@ -222,7 +222,7 @@ function saveTasks() {
     text: task.querySelector('.js-task-text').textContent,
     completed: task.querySelector('.js-task-checkbox').checked,
     tag: task.dataset.tag || null,
-    date: task.querySelector('todoTasks', JSON.stringify(tasks))
+    date: task.querySelector('.js-task-date').textContent
   }));
   localStorage.setItem('todoTasks', JSON.stringify(tasks));
 }

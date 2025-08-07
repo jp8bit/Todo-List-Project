@@ -5,11 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Todo List</title>
   <link rel="stylesheet" href="styles/style.css">
-  <link rel="stylesheet" href="styles/responsive.css" media="screen and (min-width: 1px)">
+  <link rel="stylesheet" href="styles/responsive.css" media="all">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Schoolbell&display=swap" rel="stylesheet">
-  <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
+  <link rel="shortcut icon" href="images/purin-silly.ico" type="image/x-icon">
 </head>
 <body>
   <div class="todo-heading">
@@ -19,8 +19,13 @@
   <div class="container">
     <div class="input-section">
       <h2>Add New Task &#x1F4DD;</h2>
-      <input type="text" class="text-input js-text-input" placeholder="Insert task here!!!">
-      <button class="add-button js-add-button">Add Task</button>
+      <div class="input-group">
+        <input type="text" class="text-input js-text-input" placeholder="What needs to be done?">
+        <button class="add-button js-add-button">Add Task</button>
+      </div>
+      <div class="input-gif-container">
+        <img src="images/purin-bite.gif" alt="Pompompurin eating cookie" class="input-gif">
+      </div>
     </div>
     <div class="tasks-section">
       <h2>Your Tasks &#x1F4CC;</h2>
