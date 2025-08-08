@@ -1,4 +1,4 @@
-// tags.js
+// Setting up object for tags
 export const TAGS = {
   WORK: { name: "Work", color: "#ff5252" },
   CHORES: { name: "Chores", color: "#4caf50" },
@@ -16,7 +16,7 @@ export function createTagDropdown(currentTag = null) {
   defaultOption.textContent = 'Select tag';
   dropdown.appendChild(defaultOption);
 
-  // CORRECTED: Proper parameter destructuring
+  // Parameter destructuring
   Object.entries(TAGS).forEach(([tagKey, tag]) => {
     const option = document.createElement('option');
     option.value = tagKey;  // Use tagKey instead of key
@@ -26,5 +26,6 @@ export function createTagDropdown(currentTag = null) {
     dropdown.appendChild(option);
   });
 
+  // Use outside function
   return dropdown;
 }

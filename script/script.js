@@ -1,4 +1,4 @@
-// Sorry if there are some unnecessary coments, i just put them there to remember
+// Sorry if there are some unnecessary comments, i just put them there to remember
 import { createTagDropdown, TAGS } from "./tags.js";
 
 // Initial variables
@@ -55,13 +55,13 @@ function addTask() {
       <button class="delete-btn js-delete-btn">Delete</button>
     </div>
   `;
-
+  // Append task to the task holder
   taskHolder.appendChild(taskElement);
   inputField.value = '';
   setupTaskEventListeners(taskElement);
   saveTasks();
 
-    // Trigger grow animation
+    // Trigger grow animation, like pudding (dumb, i know)
   const container = document.querySelector('.container');
   container.classList.add('grow-effect');
   
@@ -127,7 +127,7 @@ function setupTaskEventListeners(taskElement) {
     e.stopPropagation();
     taskElement.classList.add('edit-mode');
     
-   // Find the CURRENT tag element (not storing original reference)
+   // Find the CURRENT tag element (not storing original reference, put it here becuz i was storing the reference)
   const currentTagElement = taskElement.querySelector('.js-task-tag');
   const currentTag = taskElement.dataset.tag || '';
   const tagDropdown = createTagDropdown(currentTag);

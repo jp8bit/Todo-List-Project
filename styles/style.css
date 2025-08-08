@@ -154,7 +154,6 @@ input[type="checkbox"] {
 }
 
 
-
 .input-section {
   position: relative;
   padding-bottom: 0px;
@@ -163,9 +162,9 @@ input[type="checkbox"] {
 .text-input {
   padding: 15px;
   border-radius: 12px;
-  background: #fff8e8; /* Soft cream (lighter than your yellow) */
-  border: 2px solid #6a4a3a; /* Pompompurin's brown */
-  color: #5a3a2a; /* Slightly darker brown for text */
+  background: #fff8e8; 
+  border: 2px solid #6a4a3a;
+  color: #5a3a2a; 
   box-shadow: 
   inset 2px 2px 4px rgba(255, 223, 139, 0.3), /* Inner glow */
   0 2px 6px rgba(106, 74, 58, 0.1); /* Subtle outer shadow */
@@ -338,13 +337,12 @@ input[type="checkbox"] {
   text-shadow: 0 1px 1px rgba(0,0,0,0.2);
 }
 
-/* Optional: Tag specific styles */
-
-
 .tag-dropdown {
   margin-right: 8px;
   padding: 2px;
 }
+
+/* Scroll bar editing */
 
 ::-webkit-scrollbar {
   width: 10px;
